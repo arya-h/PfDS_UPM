@@ -16,6 +16,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
+from datetime import datetime
+from selenium.common.exceptions import TimeoutException
 
 START_DATE = '01/01/2020'
 STOP_DATE = '12/31/2020'
@@ -34,6 +36,8 @@ def scrape_data(start_date=START_DATE, stop_date=STOP_DATE, assets=assets):
             driver.execute_script("arguments[0].click();", calender)
 
             # 2. Change start and stop date in calendar
+            # Wait until start and stop date field are loaded
+            WebDriverWait(driver, 5).until(lambda d: d.find_element(by=By.ID, value="startDate"))
             startDate = driver.find_element(By.ID, 'startDate')
             startDate.clear()
             startDate.send_keys(start_date)
@@ -44,10 +48,11 @@ def scrape_data(start_date=START_DATE, stop_date=STOP_DATE, assets=assets):
             # 3. Click apply button
             apply_btn = WebDriverWait(driver, 20).until(ec.element_to_be_clickable((By.ID, "applyBtn")))
             driver.execute_script("arguments[0].click();", apply_btn)
-            time.sleep(2)
 
-            # Get table to build df
-            table = driver.find_element(By.ID, 'curr_table')
+            # Wait until old table is removed and new table is loaded to ensure correct data to be loaded
+            WebDriverWait(driver, 2, ignored_exceptions=TimeoutException).until_not(
+                lambda d: d.find_element(by=By.ID, value="curr_table"))
+            table = WebDriverWait(driver, 5).until(lambda d: d.find_element(by=By.ID, value="curr_table"))
 
             thead = table.find_element(by=By.TAG_NAME, value='thead')
             header_rows = thead.find_element(by=By.TAG_NAME, value='tr')
@@ -69,6 +74,10 @@ def scrape_data(start_date=START_DATE, stop_date=STOP_DATE, assets=assets):
 
             # 4. Discard unused columns with headers Open, High and Low
             df = df.drop(['Open', 'High', 'Low'], axis=1)
+
+            # Change Date column to proper format
+            df['Date'] = df['Date'].apply(lambda x: datetime.strptime(x, "%b %d, %Y"))
+            df['Date'] = df['Date'].apply(lambda x: x.strftime('%Y-%m-%d'))
 
             # 5. Download data
             if not os.path.exists("data"):
