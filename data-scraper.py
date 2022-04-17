@@ -88,4 +88,8 @@ def scrape_data(start_date=START_DATE, stop_date=STOP_DATE, assets=assets):
             driver.close()
 
 
-scrape_data()
+#scrape_data()
+
+
+if __name__=="__main__":
+    scrape_data()
