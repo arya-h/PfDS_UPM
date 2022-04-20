@@ -73,7 +73,10 @@ def scrape_data(start_date=START_DATE, stop_date=STOP_DATE, assets=assets):
                 df.loc[length] = cells
 
             # 4. Discard unused columns with headers Open, High and Low
-            df = df.drop(['Open', 'High', 'Low'], axis=1)
+            if asset == 'funds/amundi-msci-wrld-ae-c':
+                df = df.drop(['Open', 'High', 'Low'], axis=1)
+            else:
+                df = df.drop(['Open', 'High', 'Low', 'Vol.'], axis=1)
 
             # Change Date column to proper format
             df['Date'] = df['Date'].apply(lambda x: datetime.strptime(x, "%b %d, %Y"))
