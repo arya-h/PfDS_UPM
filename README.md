@@ -16,4 +16,4 @@ analysis_plots*, folder with the plots created for the analysis.\
 data*, folder with the data scrapped saved in CSVs.\
 portfolios*, folder with CSVs including the allocated portfolios and the portfolios with the calculated metrics.\
 
-* folders are created and filled when running the code.
+.* folders are created and filled when running the code.
