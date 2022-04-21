@@ -10,10 +10,11 @@ if not os.path.exists("analysis_plots"):
 plt.figure(figsize=(16, 8))
 
 # Return line chart
-plt.title('Returns')  # TODO: add red line at 0
+plt.title('Returns')
+plt.axhline(y=0, color='r', linestyle='-')
 plt.plot(df.index, df.RETURN)
 plt.ylabel("Return")
-plt.xlabel("Portfolios")
+plt.xlabel("Portfolios"),
 plt.savefig('analysis_plots/return_line-chart.png', pad_inches=0, transparent=True)
 plt.show()
 plt.close()
@@ -22,6 +23,7 @@ plt.close()
 positive_return = df['RETURN'].where(df.RETURN >= 0).count()
 negative_return = df['RETURN'].where(df.RETURN < 0).count()
 plt.title('Returns')
+plt.rcParams.update({'font.size': 18})
 plt.pie([positive_return, negative_return], labels=['Positive', 'Negative'], autopct='%1.1f%%')
 plt.savefig('analysis_plots/return_pie.png', pad_inches=0, transparent=True)
 plt.show()
@@ -40,8 +42,8 @@ plt.plot([], [], color='green', label='Cash')
 
 plt.stackplot(sorted_df.RETURN, sorted_df.ST, sorted_df.CB, sorted_df.PB, sorted_df.GO, sorted_df.CA,
               colors=['blue', 'red', 'purple', 'orange', 'green'])
-plt.legend()
-plt.savefig('analysis_plots/return_on_portfolios.png', pad_inches=0, transparent=True)
+plt.legend(loc=(1.04, 0.5))
+plt.savefig('analysis_plots/return_on_portfolios.png', pad_inches=0, transparent=True, bbox_inches="tight")
 plt.show()
 plt.close()
 
