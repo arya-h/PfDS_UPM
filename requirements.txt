@@ -1,6 +1,6 @@
-selenium
+selenium == 4.1.3
 By
-pandas
-numpy
-matplotlib
-
+pandas == 1.4.2
+matplotlib == 3.5.1
+seaborn == 0.11.2
+numpy == 1.22.3

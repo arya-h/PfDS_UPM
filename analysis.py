@@ -16,7 +16,6 @@ plt.plot(df.index, df.RETURN)
 plt.ylabel("Return")
 plt.xlabel("Portfolios")
 plt.savefig('analysis_plots/return_line-chart.png', pad_inches=0, transparent=True)
-plt.show()
 plt.close()
 
 # Positive vs Negative Return plot
@@ -26,7 +25,6 @@ plt.title('Returns')
 plt.rcParams.update({'font.size': 18})
 plt.pie([positive_return, negative_return], labels=['Positive', 'Negative'], autopct='%1.1f%%')
 plt.savefig('analysis_plots/return_pie.png', pad_inches=0, transparent=True)
-plt.show()
 plt.close()
 
 # Return plot
@@ -44,7 +42,6 @@ plt.stackplot(sorted_df.RETURN, sorted_df.ST, sorted_df.CB, sorted_df.PB, sorted
               colors=['blue', 'red', 'purple', 'orange', 'green'])
 plt.legend(loc=(1.04, 0.5))
 plt.savefig('analysis_plots/return_on_portfolios.png', pad_inches=0, transparent=True, bbox_inches="tight")
-plt.show()
 plt.close()
 
 
@@ -54,5 +51,4 @@ plt.ylabel("Return")
 plt.xlabel("Volatility")
 plt.scatter(df.VOLAT, df.RETURN)
 plt.savefig('analysis_plots/return_vs_risk.png', pad_inches=0, transparent=True)
-plt.show()
 plt.close()
