@@ -1,3 +1,6 @@
 selenium
 By
 pandas
+numpy
+matplotlib
+

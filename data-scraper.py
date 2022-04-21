@@ -8,7 +8,6 @@
 #   ishares-global-corporate-bond-$.csv
 #   spdr-gold-trust.csv
 #   usdollar.csv
-import time
 import os
 
 import pandas as pd
@@ -88,4 +87,6 @@ def scrape_data(start_date=START_DATE, stop_date=STOP_DATE, assets=assets):
             driver.close()
 
 
-scrape_data()
+if __name__ == "__main__":
+    scrape_data()
+ 
