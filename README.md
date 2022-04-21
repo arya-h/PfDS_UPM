@@ -15,5 +15,6 @@ requirements.txt, Text file with the required libraries needed to run the code.\
 analysis_plots*, folder with the plots created for the analysis.\
 data*, folder with the data scrapped saved in CSVs.\
 portfolios*, folder with CSVs including the allocated portfolios and the portfolios with the calculated metrics.\
+report.pdf, file containing the interpretation of the graphs and analysis of data.
 
 .* folders are created and filled when running the code.
