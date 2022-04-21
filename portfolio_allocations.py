@@ -34,4 +34,5 @@ def portfolio_allocation_generation():
     print(f'Successfully stored portfolio_allocations in the portfolios/ folder!')
 
 
-portfolio_allocation_generation()
+if __name__ == "__main__":
+    portfolio_allocation_generation()

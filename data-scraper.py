@@ -8,7 +8,6 @@
 #   ishares-global-corporate-bond-$.csv
 #   spdr-gold-trust.csv
 #   usdollar.csv
-import time
 import os
 
 import pandas as pd
@@ -73,10 +72,7 @@ def scrape_data(start_date=START_DATE, stop_date=STOP_DATE, assets=assets):
                 df.loc[length] = cells
 
             # 4. Discard unused columns with headers Open, High and Low
-            if asset == 'funds/amundi-msci-wrld-ae-c':
-                df = df.drop(['Open', 'High', 'Low'], axis=1)
-            else:
-                df = df.drop(['Open', 'High', 'Low', 'Vol.'], axis=1)
+            df = df.drop(['Open', 'High', 'Low'], axis=1)
 
             # Change Date column to proper format
             df['Date'] = df['Date'].apply(lambda x: datetime.strptime(x, "%b %d, %Y"))
@@ -86,9 +82,10 @@ def scrape_data(start_date=START_DATE, stop_date=STOP_DATE, assets=assets):
             if not os.path.exists("data"):
                 os.mkdir("data")
             df.to_csv(f'data/{asset.split(sep="/")[1]}.csv', header=True, index=False)
-            print(f'Successfully stored {asset.split(sep="/")[1]}.csv in the data/ folder')
+            print(f'Successfully stored {asset.split(sep="/")[1]}.csv in the data/ folder!')
         finally:
             driver.close()
 
 
-scrape_data()
+if __name__ == "__main__":
+    scrape_data()

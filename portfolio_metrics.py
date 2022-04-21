@@ -98,11 +98,11 @@ def portfolio_metrics():
         asset = fill_missing_values(asset)
         assets_filled.append(asset)
 
-        if i == len(assets):  # Cash being the last asset in the list
+        if i == len(assets)-1:  # Cash being the last asset in the list
             # determine if dollar has gained or loss value from start to end of year,
             # necessary to calculate the return on the cash asset investment
             start = 1
-            end = asset['Price'].iloc[-1] / asset['Price'].iloc[0]
+            end = asset['Price'].iloc[-1] / asset['Price'].iloc[0] # FIXME BUG????!
         else:
             start = asset['Price'].iloc[0]
             end = asset['Price'].iloc[-1]

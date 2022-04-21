@@ -1,0 +1,69 @@
+import matplotlib.pyplot as plt
+import pandas as pd
+import os
+
+df = pd.read_csv('portfolios/portfolio_metrics.csv')
+
+if not os.path.exists("analysis_plots"):
+    os.mkdir("analysis_plots")
+
+plt.figure(figsize=(16, 8))
+
+# Return line chart
+plt.title('Returns')  # TODO: add red line at 0
+plt.plot(df.index, df.RETURN)
+plt.ylabel("Return")
+plt.xlabel("Portfolios")
+plt.savefig('analysis_plots/return_line-chart.png', pad_inches=0, transparent=True)
+plt.show()
+plt.close()
+
+# Positive vs Negative Return plot
+positive_return = df['RETURN'].where(df.RETURN >= 0).count()
+negative_return = df['RETURN'].where(df.RETURN < 0).count()
+plt.title('Returns')
+plt.pie([positive_return, negative_return], labels=['Positive', 'Negative'], autopct='%1.1f%%')
+plt.savefig('analysis_plots/return_pie.png', pad_inches=0, transparent=True)
+plt.show()
+plt.close()
+
+# Return plot
+plt.ylabel("Portfolio Mix")
+plt.xlabel("Return")
+plt.title('Return on different Portfolios')
+sorted_df = df.sort_values(by='RETURN', ascending=True)
+plt.plot([], [], color='blue', label='Stocks')
+plt.plot([], [], color='red', label='Corporate Bonds')
+plt.plot([], [], color='purple', label='Public Bonds')
+plt.plot([], [], color='orange', label='Gold')
+plt.plot([], [], color='green', label='Cash')
+
+plt.stackplot(sorted_df.RETURN, sorted_df.ST, sorted_df.CB, sorted_df.PB, sorted_df.GO, sorted_df.CA,
+              colors=['blue', 'red', 'purple', 'orange', 'green'])
+plt.legend()
+plt.savefig('analysis_plots/return_on_portfolios.png', pad_inches=0, transparent=True)
+plt.show()
+plt.close()
+
+# Stacked bar chart on returns of different portfolios
+sorted_df = df.sort_values(by='RETURN', ascending=True)
+sorted_df = sorted_df[['ST', 'CB', 'PB', 'GO', 'CA']]
+ax = sorted_df.plot(stacked=True, kind='bar')
+for bar in ax.patches:
+    height = bar.get_height()
+    width = bar.get_width()
+    x = bar.get_x()
+    y = bar.get_y()
+plt.legend(['Stocks', 'Corporate Bonds', 'Public Bonds', 'Gold', 'Cash'])
+plt.savefig('analysis_plots/return_on_portfolios_bar-chart.png', pad_inches=0, transparent=True)
+plt.show()
+plt.close()
+
+# Return vs Risk plot
+plt.title("Return vs Risk")
+plt.ylabel("Return")
+plt.xlabel("Volatility")
+plt.scatter(df.VOLAT, df.RETURN)
+plt.savefig('analysis_plots/return_vs_risk.png', pad_inches=0, transparent=True)
+plt.show()
+plt.close()
