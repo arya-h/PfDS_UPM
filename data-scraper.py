@@ -83,7 +83,7 @@ def scrape_data(start_date=START_DATE, stop_date=STOP_DATE, assets=assets):
             if not os.path.exists("data"):
                 os.mkdir("data")
             df.to_csv(f'data/{asset.split(sep="/")[1]}.csv', header=True, index=False)
-            print(f'Successfully stored {asset.split(sep="/")[1]}.csv in the data/ folder')
+            print(f'Successfully stored {asset.split(sep="/")[1]}.csv in the data/ folder!')
         finally:
             driver.close()
 
