@@ -14,7 +14,7 @@ plt.title('Returns')
 plt.axhline(y=0, color='r', linestyle='-')
 plt.plot(df.index, df.RETURN)
 plt.ylabel("Return")
-plt.xlabel("Portfolios"),
+plt.xlabel("Portfolios")
 plt.savefig('analysis_plots/return_line-chart.png', pad_inches=0, transparent=True)
 plt.show()
 plt.close()
@@ -47,19 +47,6 @@ plt.savefig('analysis_plots/return_on_portfolios.png', pad_inches=0, transparent
 plt.show()
 plt.close()
 
-# Stacked bar chart on returns of different portfolios
-sorted_df = df.sort_values(by='RETURN', ascending=True)
-sorted_df = sorted_df[['ST', 'CB', 'PB', 'GO', 'CA']]
-ax = sorted_df.plot(stacked=True, kind='bar')
-for bar in ax.patches:
-    height = bar.get_height()
-    width = bar.get_width()
-    x = bar.get_x()
-    y = bar.get_y()
-plt.legend(['Stocks', 'Corporate Bonds', 'Public Bonds', 'Gold', 'Cash'])
-plt.savefig('analysis_plots/return_on_portfolios_bar-chart.png', pad_inches=0, transparent=True)
-plt.show()
-plt.close()
 
 # Return vs Risk plot
 plt.title("Return vs Risk")
