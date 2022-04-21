@@ -4,8 +4,21 @@ import math
 import numpy as np
 
 
-def fill_missing_values(df):  # FIXME: first and last day of the year need to be filled
+def fill_missing_values(df):
     df['Date'] = pd.to_datetime(df['Date'], format='%Y-%m-%d')
+    df = df.sort_values(by='Date', ascending=[True])
+
+    if df.iloc[0]['Date'].strftime('%Y-%m-%d') != '2020-01-01':
+        first_day = df.iloc[0].copy(deep=True)
+        first_day['Date'] = pd.to_datetime('2020-01-01', format='%Y-%m-%d')
+        df.loc[len(df)] = first_day
+        df = df.sort_values(by='Date', ascending=[True])
+
+    if df.iloc[-1]['Date'].strftime('%Y-%m-%d') != '2020-12-31':
+        last_day = df.iloc[-1].copy(deep=True)
+        last_day['Date'] = pd.to_datetime('2020-12-31', format='%Y-%m-%d')
+        df.loc[len(df)] = last_day
+
     df = df.set_index('Date', inplace=False)
     df = df.sort_values(by='Date', ascending=[True])
     df = df.resample('D').fillna(method="bfill").reset_index()
@@ -60,8 +73,7 @@ def calculate_volatility(assets, portfolios, start_prices):
         shares = calculate_shares(portfolios.iloc[row], start_prices)
 
         values = []
-        # FIXME: all assets should have the same length after proper filling of missing values -> change assets index
-        for day in range(0, len(assets[2])):
+        for day in range(0, len(assets[0])):
             value_sum = 0
             for i, asset in enumerate(assets):
                 value_sum += shares[i] * asset.loc[day].Price
